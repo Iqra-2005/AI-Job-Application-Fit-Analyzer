@@ -49,9 +49,9 @@ pip install -r requirements.txt
 
 Create .env and place you GEMINI_API_KEY
 
-'''bash
+```bash
 streamlit run app.py
-'''
+```
 
 ---
 
