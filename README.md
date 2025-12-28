@@ -37,8 +37,9 @@ AI-Job-Application-Fit-Analyzer/
 ├── README.md
 ├── helper/
 │   ├── pdf_reader.py
+|   |-skill_extractor.py
 │   ├── skill_extractor.py
-│   └── jd_processor.py
+│   └── scorer.py
 ```
 
 ---
