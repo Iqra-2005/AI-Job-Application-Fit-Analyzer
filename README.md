@@ -45,9 +45,13 @@ AI-Job-Application-Fit-Analyzer/
 ## **Run Locally**
 ```bash
 pip install -r requirements.txt
-streamlit run app.py
 ```
 
+Create .env and place you GEMINI_API_KEY
+
+'''bash
+streamlit run app.py
+'''
 
 ---
 
