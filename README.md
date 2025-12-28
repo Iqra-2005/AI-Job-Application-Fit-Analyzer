@@ -22,7 +22,7 @@ The application:
 - **Python**
 - **Streamlit**
 - **LangChain**
-- **Gemini / OpenAI API**
+- **Gemini API**
 - **PyPDF2**
 
 
