@@ -24,8 +24,7 @@ The application:
 - **LangChain**
 - **Gemini / OpenAI API**
 - **PyPDF2**
-- **Docker**
-- **Hugging Face Spaces**
+
 
 ---
 
