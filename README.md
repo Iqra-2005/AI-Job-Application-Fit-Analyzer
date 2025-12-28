@@ -15,7 +15,7 @@ The application:
 - Extracts skills and key information
 - Compares resume content with job requirements
 - Generates a **match score** and **AI-based analysis**
-
+ 
 ---
 
 ## **Tech Stack**
