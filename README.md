@@ -31,7 +31,7 @@ The application:
 ## **Project Structure**
 ```text
 AI-Job-Application-Fit-Analyzer/
-|--- AI-Job-Application-Fit-Analyzer.py
+|--- AI-Job-Fit-Analyzer.py
 |--- Variables & Helper functions/
 │   |--- pdf_reader              # to read resume pdf and extract content
 |   |--- prompt                  # structured prompts for the llm
