@@ -32,12 +32,11 @@ The application:
 ```text
 AI-Job-Application-Fit-Analyzer/
 |--- app.py
-|--- config.py
-|--- helper/
-│   |--- pdf_reader.py           # to read resume pdf and extract content
-|   |--- prompt.py               # structured prompts for the llm
-│   |--- skill_extractor.py      # AI agent to extract skills from the resume and job description for efficient matching
-│   └--- scorer.py               # to generate match scores between resume and job description
+|--- Variables & Helper functions/
+│   |--- pdf_reader              # to read resume pdf and extract content
+|   |--- prompt                  # structured prompts for the llm
+│   |--- skill_extractor         # AI agent to extract skills from the resume and job description for efficient matching
+│   └--- scorer                  # to generate match scores between resume and job description
 ```
 
 ---
