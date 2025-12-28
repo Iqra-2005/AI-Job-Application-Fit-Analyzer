@@ -49,17 +49,12 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
----
-
-## **Deployment**
-- Containerized using **Docker**
-- Deployed on **Hugging Face Spaces**
-- Streamlit runs on **port 7860**
 
 ---
 
 ## **Learning Outcomes**sis
 - Integrated Large Language Models
+- Prompt Engineering 
 - Built an AI web application
 
 ---
