@@ -32,12 +32,11 @@ The application:
 ```text
 AI-Job-Application-Fit-Analyzer/
 ├── app.py
-├── Dockerfile
 ├── requirements.txt
 ├── README.md
 ├── helper/
 │   ├── pdf_reader.py
-|   |-skill_extractor.py
+|   |***skill_extractor.py
 │   ├── skill_extractor.py
 │   └── scorer.py
 ```
