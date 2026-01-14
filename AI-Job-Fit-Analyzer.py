@@ -60,19 +60,16 @@ def calculate_match(resume_data, jd_data):
 
 RESUME_SKILL_PROMPT = """
 You are an information extraction system.
-
 Return ONLY valid JSON.
 DO NOT add explanations.
 DO NOT use markdown.
 DO NOT wrap in backticks.
-
 JSON format:
 {{
   "skills": [],
   "experience_years": 0,
   "domains": []
 }}
-
 Resume Text:
 {resume_text}
 """
@@ -80,19 +77,16 @@ Resume Text:
 
 JD_SKILL_PROMPT = """
 You are an information extraction system.
-
 Return ONLY valid JSON.
 DO NOT add explanations.
 DO NOT use markdown.
 DO NOT wrap in backticks.
-
 JSON format:
 {{
   "required_skills": [],
   "min_experience": 0,
   "role_domain": ""
 }}
-
 Job Description:
 {jd_text}
 """
@@ -161,10 +155,12 @@ st.markdown(
 with st.sidebar:
     st.header("📂 Input Details")
 
-    resume_file = st.file_uploader(
-        "Upload Resume (PDF)",
-        type=["pdf"]
+    resume_files = st.file_uploader(
+    "Upload Resume (PDF)",
+    type=["pdf"],
+    accept_multiple_files=True
     )
+
 
     jd_text = st.text_area(
         "Paste Job Description",
@@ -176,75 +172,87 @@ with st.sidebar:
 
 # ---------- MAIN ----------
 if analyze_btn:
-    if not resume_file or not jd_text:
-        st.error("Please upload a resume and paste the job description.")
+    if not resume_files or not jd_text:
+        st.error("Please upload at least one resume and paste the job description.")
     else:
-        with st.spinner("🔍 Analyzing resume and job description..."):
-            progress = st.progress(0)
+        for idx, resume_file in enumerate(resume_files, start=1):
 
-            # Step 1: Read Resume
-            resume_text = extract_text_from_pdf(resume_file)
-            progress.progress(30)
+            with st.container():
+                st.markdown(f"## 📄 Resume {idx}: {resume_file.name}")
+                st.divider()
 
-            # Step 2: Extract Structured Data
-            try:
-                resume_data = extract_resume_data(resume_text)
-                progress.progress(60)
+                with st.spinner("🔍 Analyzing resume and job description..."):
+                    progress = st.progress(0)
 
-                jd_data = extract_jd_data(jd_text)
-                progress.progress(90)
-            except Exception as e:
-                st.error("❌ Failed to extract structured data from Gemini.")
-                st.code(str(e))
-                st.stop()
+                    resume_text = extract_text_from_pdf(resume_file)
+                    progress.progress(30)
 
-            # Step 3: Calculate Match
-            result = calculate_match(resume_data, jd_data)
-            progress.progress(100)
+                    try:
+                        resume_data = extract_resume_data(resume_text)
+                        progress.progress(60)
 
-        # ---------- DECISION REASONS ----------
-        reasons = []
+                        jd_data = extract_jd_data(jd_text)
+                        progress.progress(90)
+                    except Exception as e:
+                        st.error("❌ Failed to extract structured data from Gemini.")
+                        st.code(str(e))
+                        continue
 
-        if result["skill_score"] < 75:
-            reasons.append("Skill match below recommended threshold")
+                    result = calculate_match(resume_data, jd_data)
+                    progress.progress(100)
 
-        if result["experience_gap"] < 0:
-            reasons.append("Experience requirement not met")
+                # ---------- DECISION REASONS ----------
+                reasons = []
 
-        if not reasons:
-            reasons.append("Strong alignment with job requirements")
+                if result["skill_score"] < 75:
+                    reasons.append("Skill match below recommended threshold")
 
-        # ---------- RESULTS ----------
-        st.subheader("📊 Match Summary")
+                if result["experience_gap"] < 0:
+                    reasons.append("Experience requirement not met")
 
-        st.markdown("### 🧠 Why this decision?")
-        for reason in reasons:
-            st.markdown(f"- {reason}")
+                if not reasons:
+                    reasons.append("Strong alignment with job requirements")
 
-        col1, col2, col3 = st.columns(3)
+                # ---------- RESULTS ----------
+                st.subheader("📊 Match Summary")
 
-        # Skill Match
-        col1.metric("Skill Match", f"{result['skill_score']}%")
-        if result["skill_score"] >= 75:
-            col1.caption("Confidence: High")
-        elif result["skill_score"] >= 50:
-            col1.caption("Confidence: Medium")
-        else:
-            col1.caption("Confidence: Low")
+                st.markdown("### 🧠 Why this decision?")
+                for reason in reasons:
+                    st.markdown(f"- {reason}")
 
-        # Experience Gap
-        col2.metric("Experience Gap", f"{result['experience_gap']} yrs")
+                col1, col2, col3 = st.columns(3)
 
-        # Decision Badge
-        decision = result["decision"]
-        if decision == "Apply":
-            col3.success("✅ APPLY")
-        elif "Upskill" in decision:
-            col3.warning("🛠️ UPSKILL FIRST")
-        else:
-            col3.error("❌ NOT RECOMMENDED")
+                col1.metric("Skill Match", f"{result['skill_score']}%")
+                col2.metric("Experience Gap", f"{result['experience_gap']} yrs")
 
-        st.divider()
+                decision = result["decision"]
+                if decision == "Apply":
+                    col3.success("✅ APPLY")
+                elif "Upskill" in decision:
+                    col3.warning("🛠️ UPSKILL FIRST")
+                else:
+                    col3.error("❌ NOT RECOMMENDED")
+
+                col_left, col_right = st.columns(2)
+
+                with col_left:
+                    with st.expander("✅ Matched Skills"):
+                        if result["matched_skills"]:
+                            for skill in result["matched_skills"]:
+                                st.markdown(f"- {skill}")
+                        else:
+                            st.info("No matching skills found.")
+
+                with col_right:
+                    with st.expander("❌ Missing Skills"):
+                        if result["missing_skills"]:
+                            for skill in result["missing_skills"]:
+                                st.markdown(f"- {skill}")
+                        else:
+                            st.success("No missing skills 🎉")
+
+                st.divider()
+
 
         # ---------- SKILLS ----------
         col_left, col_right = st.columns(2)
