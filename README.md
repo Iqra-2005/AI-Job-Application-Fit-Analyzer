@@ -1,6 +1,6 @@
 # **AI Job Application Fit Analyzer**
 
-An AI-powered web application that analyzes how well a resume matches a given job description using NLP and AI techniques and recommends whether to apply, upskill or not apply for the job.
+An AI-powered web application that analyzes how well a resume matches a given job description using AI agent and recommends whether a candidate is fit to apply, upskill or not suitable for the job.
 
 ---
 
