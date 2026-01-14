@@ -1,6 +1,6 @@
 # **AI Job Application Fit Analyzer**
 
-An AI-powered web application that analyzes how well a resume matches a given job description using NLP and AI techniques.
+An AI-powered web application that analyzes how well a resume matches a given job description using NLP and AI techniques and recommends whether to apply, upskill or not apply for the job.
 
 ---
 
@@ -11,7 +11,7 @@ Manual resume screening is time-consuming and subjective. Recruiters and job see
 
 ## **Solution**
 The application:
-- Accepts a **resume (PDF)** and a **job description**
+- Accepts **resume (PDF)** (single/multiple) and a **job description**
 - Extracts skills and key information
 - Compares resume content with job requirements
 - Generates a **match score** and **AI-based analysis**
